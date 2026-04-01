@@ -34,7 +34,7 @@ export async function tokenizeCode(
   const safeLang = supportedLangs.includes(lang as never) ? lang : "javascript"
   const theme = colorScheme === "light" ? "github-light" : "github-dark"
 
-  const { tokens } = hl.codeToTokens(code, { lang: safeLang, theme })
+  const { tokens } = hl.codeToTokens(code, { lang: safeLang as Parameters<typeof hl.codeToTokens>[1]["lang"], theme })
 
   const chars: TokenizedChar[] = []
   for (let lineIdx = 0; lineIdx < tokens.length; lineIdx++) {

@@ -33,9 +33,9 @@ export function useTimer(
           if (next <= 0) {
             clearInterval(intervalRef.current!)
             onExpireRef.current()
-            return 0
+            return r
           }
-          return next
+          return next as typeof r
         })
       }
     }, 1000)
