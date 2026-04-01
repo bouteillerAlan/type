@@ -55,26 +55,22 @@ npm run preview
 
 Anonymous GitHub API access is limited to 60 requests/hour. If you hit the limit, TypeCode will show a step-by-step guide to create a free personal access token (no scopes needed for public repos) and store it locally.
 
-## Configuration
+## Code of conduct, license, contributing
 
-| Setting | Where | Description |
-|---|---|---|
-| Repository | Home page | Curated list or custom GitHub URL |
-| Test mode | Home page | Timed or snippet completion |
-| Duration | Home page | 15 / 30 / 60 / 120 seconds (timed mode only) |
-| Font size | Test page | 14 / 16 / 20 / 24 / 28 / 32 px |
-| Theme | Top-right toggle | Light / Dark / System (also togglable with `d`) |
-| GitHub token | Auto-prompted | Stored in `localStorage` under `typecode-github-token` |
+See the following file :
+- [code of conduct](CODE_OF_CONDUCT.md)
+- [license](LICENSE)
+- [contributing](CONTRIBUTING.md)
+- [security](SECURITY.md)
 
-## Tech stack
+## Want to participate? Have a bug or a request feature?
 
-- [React 19](https://react.dev/) + [React Router](https://reactrouter.com/)
-- [Vite](https://vite.dev/)
-- [Shiki](https://shiki.style/) for syntax highlighting
-- [Recharts](https://recharts.org/) for charts
-- [shadcn/ui](https://ui.shadcn.com/) + [Tailwind CSS v4](https://tailwindcss.com/)
-- GitHub REST API (browser-side, CORS)
+Do not hesitate to open a pr or an issue. I reply when I can.
 
-## Want to participate? Have a bug or a feature request?
+## Want to support my work?
 
-Open a PR or an issue — contributions are welcome.
+- [Give me a tips](https://ko-fi.com/a2n00)
+- [Give a star on github](https://github.com/bouteillerAlan/type)
+- Or just participate to the development :D
+
+### Thanks !
