@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -127,4 +128,14 @@
   html {
     @apply font-sans;
     }
+  button, a, select, [role="button"], [role="link"], [role="menuitem"], [role="option"], [role="tab"] {
+    cursor: pointer;
+  }
+}
+
+.roboto-mono {
+  font-family: "Roboto Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
