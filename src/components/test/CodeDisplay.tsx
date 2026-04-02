@@ -20,15 +20,33 @@ function getLookaheadIdx(chars: TokenizedChar[], cursor: number, lineCount = 2):
 }
 
 export function CodeDisplay({ chars, cursor, fontSize }: Props) {
+  const containerRef = useRef<HTMLPreElement | null>(null)
   const lookaheadRef = useRef<HTMLSpanElement | null>(null)
+  const cursorScrollRef = useRef<HTMLSpanElement | null>(null)
   const lookaheadIdx = getLookaheadIdx(chars, cursor, 4)
 
   useEffect(() => {
     lookaheadRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" })
+
+    const el = cursorScrollRef.current
+    const container = containerRef.current
+    if (el && container) {
+      const elRect = el.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
+      const PADDING = 160
+      const relRight = elRect.right - containerRect.left
+      const relLeft = elRect.left - containerRect.left
+      if (relRight > container.clientWidth - PADDING) {
+        container.scrollTo({ left: container.scrollLeft + relRight - container.clientWidth + PADDING, behavior: "smooth" })
+      } else if (relLeft < PADDING) {
+        container.scrollTo({ left: Math.max(0, container.scrollLeft + relLeft - PADDING), behavior: "smooth" })
+      }
+    }
   }, [cursor])
 
   return (
     <pre
+      ref={containerRef}
       style={{ fontSize }}
       className={[
         "roboto-mono leading-relaxed",
@@ -44,7 +62,13 @@ export function CodeDisplay({ chars, cursor, fontSize }: Props) {
           key={i}
           char={c}
           isCursor={i === cursor}
-          cursorRef={i === lookaheadIdx ? lookaheadRef : undefined}
+          spanRef={
+            i === cursor
+              ? cursorScrollRef
+              : i === lookaheadIdx
+              ? lookaheadRef
+              : undefined
+          }
         />
       ))}
     </pre>

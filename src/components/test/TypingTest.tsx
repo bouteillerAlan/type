@@ -9,6 +9,8 @@ import { ResultsCard } from "./ResultsCard"
 import { saveTestResult, getStoredResults } from "@/lib/stats"
 import type { StoredResult } from "@/types"
 import { loadSettings, saveSettings, FONT_SIZES, type FontSize } from "@/lib/settings"
+import { Button } from "@/components/ui/button"
+import { Check, X } from "lucide-react"
 import type { SnippetData, Duration, TestMode, TimePoint } from "@/types"
 
 interface Props {
@@ -23,11 +25,19 @@ export function TypingTest({ snippet, mode, duration, onRestart }: Props) {
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
 
   const [fontSize, setFontSize] = useState<FontSize>(() => loadSettings().fontSize)
+  const [autoIndent, setAutoIndent] = useState<boolean>(() => loadSettings().autoIndent)
 
   function handleFontSizeChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const size = Number(e.target.value) as FontSize
     setFontSize(size)
     saveSettings({ ...loadSettings(), fontSize: size })
+  }
+
+  function handleAutoIndentToggle() {
+    setAutoIndent((prev) => {
+      saveSettings({ ...loadSettings(), autoIndent: !prev })
+      return !prev
+    })
   }
 
   const {
@@ -138,9 +148,20 @@ export function TypingTest({ snippet, mode, duration, onRestart }: Props) {
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return
       if (e.key === "Backspace") { e.preventDefault(); dispatch({ type: "BACKSPACE" }); return }
-      if (e.key === "Enter") { e.preventDefault(); dispatch({ type: "KEYPRESS", key: "\n" }); return }
+      if (e.key === "Enter") {
+        e.preventDefault()
+        dispatch({ type: "KEYPRESS", key: "\n" })
+        if (autoIndent) {
+          let i = cursor + 1
+          while (i < chars.length && (chars[i].char === " " || chars[i].char === "\t")) {
+            dispatch({ type: "KEYPRESS", key: chars[i].char })
+            i++
+          }
+        }
+        return
+      }
     },
-    [dispatch],
+    [dispatch, autoIndent, cursor, chars],
   )
 
   const handleInput = useCallback(
@@ -180,21 +201,25 @@ export function TypingTest({ snippet, mode, duration, onRestart }: Props) {
           {!finished && (
             <>
               {mode === "snippet" && started && (
-                <button
-                  onClick={() => dispatch({ type: "FINISH" })}
-                  className="px-3 py-1 text-xs font-medium rounded border border-destructive/60 text-destructive hover:bg-destructive/10 transition-colors"
-                >
+                <Button size="sm" variant="destructive" onClick={() => dispatch({ type: "FINISH" })}>
                   End
-                </button>
+                </Button>
               )}
-              <button
-                onClick={onRestart}
-                className="px-3 py-1 text-xs font-medium rounded border border-yellow-500/60 text-yellow-500 hover:bg-yellow-500/10 transition-colors"
-              >
+              <Button size="sm" variant="outline" onClick={onRestart}>
                 Reload
-              </button>
+              </Button>
             </>
           )}
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleAutoIndentToggle}
+            title="Auto-indent: automatically skip leading whitespace after pressing Enter"
+            className={autoIndent ? "border-green-500/60 text-green-500 hover:bg-green-500/10 hover:text-green-500" : ""}
+          >
+            {autoIndent ? <Check /> : <X />}
+            auto-indent
+          </Button>
           <select
             value={fontSize}
             onChange={handleFontSizeChange}

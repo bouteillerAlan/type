@@ -10,6 +10,7 @@ export interface AppSettings {
   mode: TestMode
   duration: Duration
   fontSize: FontSize
+  autoIndent: boolean
 }
 
 const DEFAULTS: AppSettings = {
@@ -17,6 +18,7 @@ const DEFAULTS: AppSettings = {
   mode: "timed",
   duration: 60,
   fontSize: 24,
+  autoIndent: true,
 }
 
 export function loadSettings(): AppSettings {
@@ -33,6 +35,7 @@ export function loadSettings(): AppSettings {
       fontSize: FONT_SIZES.includes(parsed.fontSize as FontSize)
         ? (parsed.fontSize as FontSize)
         : DEFAULTS.fontSize,
+      autoIndent: typeof parsed.autoIndent === "boolean" ? parsed.autoIndent : DEFAULTS.autoIndent,
     }
   } catch {
     return DEFAULTS

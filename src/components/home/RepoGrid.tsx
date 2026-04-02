@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import { ExternalLink } from "lucide-react"
 import type { CuratedRepo } from "@/lib/repos"
 
 interface Props {
@@ -54,6 +55,16 @@ export function RepoGrid({ repos, selected, onSelect }: Props) {
                 {repo.description}
               </div>
             </div>
+            <a
+              href={`https://github.com/${repo.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ExternalLink className="size-3" />
+              see the repo
+            </a>
           </button>
         )
       })}

@@ -14,6 +14,7 @@ import {
   validateRepoSlug,
 } from "@/lib/github"
 import { tokenizeCode } from "@/lib/shiki"
+import { loadSettings, saveSettings } from "@/lib/settings"
 
 export function TestPage() {
   const navigate = useNavigate()
@@ -25,6 +26,10 @@ export function TestPage() {
   const duration: Duration = ([15, 30, 60, 120] as Duration[]).includes(durRaw as Duration)
     ? (durRaw as Duration)
     : 60
+
+  useEffect(() => {
+    if (repo) saveSettings({ ...loadSettings(), repo, mode, duration })
+  }, [repo, mode, duration])
 
   const [snippet, setSnippet] = useState<SnippetData | null>(null)
   const [error, setError] = useState<string | null>(null)

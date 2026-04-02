@@ -4,15 +4,15 @@ import type { TokenizedChar } from "@/types"
 interface Props {
   char: TokenizedChar
   isCursor: boolean
-  cursorRef?: React.RefObject<HTMLSpanElement | null>
+  spanRef?: React.RefObject<HTMLSpanElement | null>
 }
 
-export function CharSpan({ char, isCursor, cursorRef }: Props) {
+export function CharSpan({ char, isCursor, spanRef }: Props) {
   const isNewline = char.char === "\n"
 
   return (
     <span
-      ref={cursorRef}
+      ref={spanRef}
       style={{
         color: char.state !== "incorrect" ? char.color : undefined,
       }}

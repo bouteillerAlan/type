@@ -54,4 +54,28 @@ export const CURATED_REPOS: CuratedRepo[] = [
     lang: "ts",
     description: "Progressive JS framework",
   },
+  {
+    slug: "laravel/framework",
+    label: "Laravel",
+    lang: "php",
+    description: "PHP web framework",
+  },
+  {
+    slug: "rust-lang/rust",
+    label: "Rust",
+    lang: "rust",
+    description: "The Rust programming language",
+  },
+  {
+    slug: "Bash-it/bash-it",
+    label: "Bash-it",
+    lang: "sh",
+    description: "Bash framework & scripts",
+  },
+  {
+    slug: "apple/swift",
+    label: "Swift",
+    lang: "swift",
+    description: "The Swift programming language",
+  },
 ]
